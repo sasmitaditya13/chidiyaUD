@@ -14,11 +14,12 @@ const p2w = document.getElementById('p2win');
 const p3w = document.getElementById('p3win');
 const p4w = document.getElementById('p4win');
 const nowin = document.getElementById('none');
-
+let gamma=0;
 let c=0;
 let alpha=0;
 let x=2;
 let y,y1=-1;
+let beta=0;
 nop.addEventListener('change', function handlechange(event){
     x=(nop.options[nop.selectedIndex].value);
     initarr();
@@ -33,8 +34,9 @@ function change2()
     cont5.style.display = 'none';
     cont2.style.display = 'none';
     cont3.style.display = 'flex';
-
-    xyz= setInterval(convert, 1750);
+    
+    xyz= setInterval(convert, timefind());
+    
 
 }
 
@@ -59,26 +61,28 @@ if(x==4)
 
 }
 function convert(){
-
+// clearInterval(xyz)
 if(alpha!=0)
 check();
 do{
     y = Math.floor(Math.random()*(29));}
     while(y1==y);
-    img.src= y +".png";
-    console.log("A");
-    window.addEventListener("keydown",(e)=>{
-        if(e.key == 'a' && a[0]==0)
+img.src= y +".png";
+console.log("A");
+window.addEventListener("keydown",(e)=>{
+        if(e.key == 'q' && a[0]==0)
         {a[0]=1;}
         if(e.key == 'c' && a[1]==0)
         a[1]=1;
-        if(e.key == 'n' && a[2]==0)
+        if(e.key == 'm' && a[2]==0)
         a[2]=1;
-        if(e.key == 'l' && a[3]==0)
+        if(e.key == 'p' && a[3]==0)
         a[3]=1;
     });
 alpha++;
 y1=y;
+gamma++;
+// xyz=setInterval(convert , timefind());
 }
 
 
@@ -167,6 +171,7 @@ function check()
     }
     for(let k=0;k<4;k++){
         if(a[k]!=arrx[k]){
+            arrx[k]=a[k];
             cont3.style.display="none";
             clearInterval(xyz);
             cont4.style.display="block";
@@ -180,8 +185,12 @@ function check()
             p4.style.display="block";
         }
     }
+    clearInterval(xyz);
+    if(cont3.style.display == "flex")
+    xyz = setInterval(convert , timefind());
 }
 function change4(){
+    cont4.style.display ="none";
     c=0;
     for(let k=0;k<4;k++){
         if(a[k]==0)
@@ -214,7 +223,22 @@ function change4(){
     
 }
 function change5(){
+    if(x==2)
+{
     a = [0,0,-1,-1];
+    arrx = [0,0,-1,-1];
+}
+if(x==3)
+{
+    a = [0,0,0,-1];
+    arrx = [0,0,0,-1];
+}
+if(x==4)
+{
+    a = [0,0,0,0];
+    arrx = [0,0,0,0];
+}
+    img.src= "rsg.png";
     cont1.style.display='block';
     cont5.style.display='none';
     p1w.style.display = 'none';
@@ -226,4 +250,18 @@ function change5(){
     p3.style.display = 'none';
     p4.style.display = 'none';
     nowin.style.display = 'none';
+    gamma=0;
+    alpha=0;
+}
+function timefind(){
+    if (gamma<5)
+    return 1750;
+    else if (gamma<10)
+    return 1500;
+    else if(gamma<15)
+    return 1250;
+    else if(gamma<20)
+    return 1000;
+    else
+    return 750;
 }
